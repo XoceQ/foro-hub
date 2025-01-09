@@ -29,6 +29,9 @@ public class Topic {
     @Column(name = "creation_date", updatable = false) // Evita que se actualice
     private LocalDateTime creationDate;
 
+    @Column(name = "updated_date") // Nueva columna para fecha de actualización
+    private LocalDateTime updatedDate;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "ENUM('ACTIVE', 'CLOSED', 'ARCHIVED')")
     private TopicStatus status = TopicStatus.ACTIVE;
@@ -39,6 +42,17 @@ public class Topic {
     @Column(nullable = false)
     private String course;
 
+    // Método que se ejecuta al crear el tópico
+    @PrePersist
+    protected void onCreate() {
+        this.creationDate = LocalDateTime.now();
+    }
+
+    // Método que se ejecuta al actualizar el tópico
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedDate = LocalDateTime.now();
+    }
 
     public Long getId() {
         return id;
@@ -96,7 +110,12 @@ public class Topic {
         this.author = author;
     }
 
-    public enum Status {
-        ACTIVE, INACTIVE
+    public LocalDateTime getUpdatedDate() {
+        return updatedDate;
     }
+
+    public void setUpdatedDate(LocalDateTime updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
 }

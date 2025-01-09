@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/topics")
@@ -96,15 +97,15 @@ public class TopicController {
 
     // Actualizar un tópico
     @PutMapping("/{id}")
-    public ResponseEntity<Topic> updateTopic(@PathVariable Long id, @RequestBody Topic updatedTopic) {
-        Topic topic = topicService.updateTopic(id, updatedTopic);
+    public ResponseEntity<Topic> updateTopic(@PathVariable Long id, @RequestBody @Valid Topic updatedTopic) {
+        // Llamar al servicio para actualizar el tópico
+        Topic updated = topicService.updateTopic(id, updatedTopic);
 
-        // Si no se encuentra el tópico, lanzar una excepción
-        if (topic == null) {
-            throw new ResourceNotFoundException("Topic not found with id: " + id);
-        }
-        return ResponseEntity.ok(topic);
+        // Devolver el tópico actualizado con estado 200 OK
+        return ResponseEntity.ok(updated);
     }
+
+
 
     // Eliminar un tópico
     @DeleteMapping("/{id}")
