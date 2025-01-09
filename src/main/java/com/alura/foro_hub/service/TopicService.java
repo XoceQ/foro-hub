@@ -4,8 +4,13 @@ import com.alura.foro_hub.model.Topic;
 import com.alura.foro_hub.repository.TopicRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -18,12 +23,17 @@ public class TopicService {
         return topicRepository.save(topic);
     }
 
-    public List<Topic> getAllTopics() {
-        return topicRepository.findAll();
+    public Page<Topic> getAllTopics(Pageable pageable) {
+        return topicRepository.findAll(pageable);
     }
 
     public Topic getTopicById(Long id) {
         return topicRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Topic not found"));
+    }
+
+
+    public Page<Topic> getTopicsByCourseAndYear(String course, int year, Pageable pageable) {
+        return topicRepository.findTopicsByCourseAndYear(course, year, pageable);
     }
 
     public Topic updateTopic(Long id, Topic updatedTopic) {
