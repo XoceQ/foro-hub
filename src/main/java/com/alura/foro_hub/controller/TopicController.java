@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -105,18 +104,21 @@ public class TopicController {
         return ResponseEntity.ok(updated);
     }
 
-
-
     // Eliminar un tópico
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTopic(@PathVariable Long id) {
-        // Verificar si el tópico existe antes de eliminar
-        if (!topicRepository.existsById(id)) {
+        // Verificar si el tópico existe
+        if (!topicService.existsById(id)) {
             throw new ResourceNotFoundException("Topic not found with id: " + id);
         }
-        topicService.deleteTopic(id);
+
+        // Eliminar el tópico
+        topicService.deleteById(id);
+
+        // Devolver respuesta 204 No Content
         return ResponseEntity.noContent().build();
     }
+
 
 
 }
