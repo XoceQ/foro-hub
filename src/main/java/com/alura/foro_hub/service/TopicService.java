@@ -4,14 +4,19 @@ import com.alura.foro_hub.exception.ResourceNotFoundException;
 import com.alura.foro_hub.model.Topic;
 import com.alura.foro_hub.repository.TopicRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Optional;
+
+import static org.springframework.security.config.Elements.JWT;
 
 @Service
 public class TopicService {
