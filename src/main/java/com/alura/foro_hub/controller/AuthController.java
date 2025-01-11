@@ -7,6 +7,7 @@ import com.alura.foro_hub.model.User;
 import com.alura.foro_hub.service.TokenService;
 import com.alura.foro_hub.service.UserService;
 import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/auth")
@@ -32,19 +31,12 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+
+
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody @Valid LoginRequestDTO loginRequest) {
+    public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDTO loginRequest) {
         try {
-            // Verificación del usuario (logging para depuración)
-            System.out.println("Verificando usuario: " + loginRequest.getUsername());
-            User user = userService.findByUsername(loginRequest.getUsername());
-
-            if (user == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body("Invalid username. Please check your username.");
-            }
-
-            // Autenticación (logging para depuración)
+            // Autenticación
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getUsername(),
@@ -54,16 +46,14 @@ public class AuthController {
 
             // Generación del token
             String token = tokenService.generateToken(authentication);
-            return ResponseEntity.ok(token);
+
+            return ResponseEntity.ok(new ResponseMessage("Authentication successful", token));
 
         } catch (AuthenticationException e) {
-            // Logging de excepción
-            System.out.println("Error en la autenticación: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Invalid credentials. Please check your username and password.");
+                    .body(new ResponseMessage("Invalid credentials. Please check your username and password.", null));
         }
     }
-
     // Endpoint para registrar un nuevo usuario
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody @Valid RegisterRequestDTO registerRequest) {
@@ -78,5 +68,28 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Error de registro
         }
     }
+
+    // Clase auxiliar para respuestas consistentes
+    // Clase para la respuesta consistente
+    private static class ResponseMessage {
+        private String message;
+        private String token;
+
+        public ResponseMessage(String message, String token) {
+            this.message = message;
+            this.token = token;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public String getToken() {
+            return token;
+        }
+    }
+
+
+
 }
 

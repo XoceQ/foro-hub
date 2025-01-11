@@ -15,9 +15,12 @@ public class SecurityConfigurations {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+
     // Constructor para inyectar JwtTokenProvider
+
     public SecurityConfigurations(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
+
     }
 
     @Bean

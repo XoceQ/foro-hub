@@ -5,8 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -32,22 +31,23 @@ public class TokenService {
     }
 
     // Método para validar el token
+    // Valida el token JWT
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token); // Reemplazamos 'secretKey' por 'SECRET_KEY'
-            return true;
+            Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token);
+            return true; // Token válido
         } catch (Exception e) {
-            return false;
+            return false; // Token inválido
         }
     }
 
-    // Método para obtener el nombre de usuario del token
+    // Obtiene el nombre de usuario desde el token
     public String getUsernameFromToken(String token) {
         Claims claims = Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY) // Reemplazamos 'secretKey' por 'SECRET_KEY'
+                .setSigningKey(SECRET_KEY)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-        return claims.getSubject();
+        return claims.getSubject(); // Nombre de usuario (subject)
     }
 }
