@@ -1,1 +1,0 @@
-ALTER TABLE topics ADD COLUMN updated_date TIMESTAMP NULL;
