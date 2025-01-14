@@ -1,43 +1,43 @@
 Foro Hub API
-La Foro Hub API está diseñada para gestionar tópicos, proporcionando funcionalidades clave para la creación, visualización, actualización y eliminación de estos. Este proyecto tiene como objetivo implementar una API REST robusta que cumpla con las mejores prácticas de desarrollo, garantizando validaciones precisas, autenticación segura y una base de datos relacional para persistir información.
+The Foro Hub API is designed to manage topics, providing key functionalities for creating, viewing, updating, and deleting them. This project aims to implement a robust REST API that adheres to best practices, ensuring precise validations, secure authentication, and a relational database for data persistence.
 
-Características Principales
-La API permite a los usuarios:
+Key Features
+The API allows users to:
 
-Crear un nuevo tópico.
-Visualizar todos los tópicos creados.
-Visualizar un tópico específico.
-Actualizar un tópico existente.
-Eliminar un tópico.
-Funcionalidades Adicionales
-Autenticación y autorización mediante JWT para garantizar la seguridad.
-Documentación interactiva con Swagger.
-Rutas extras:
-/user: Gestión de usuarios.
-/responses: Gestión de respuestas relacionadas con los tópicos.
-Tecnologías y Versiones
-Java: Versión 17.
-Maven: Versión 4 o superior.
-Spring Boot: Versión 3.2.3.
-MySQL: Versión 8 o superior.
-Dependencias
-Las siguientes herramientas y librerías han sido incluidas para garantizar el correcto funcionamiento de la API:
+Create a new topic.
+View all created topics.
+View a specific topic.
+Update an existing topic.
+Delete a topic.
+Additional Functionalities
+Authentication and authorization using JWT to ensure security.
+Interactive documentation with Swagger.
+Extra routes:
+/user: User management.
+/responses: Management of responses related to topics.
+Technologies and Versions
+Java: Version 17.
+Maven: Version 4 or later.
+Spring Boot: Version 3.2.3.
+MySQL: Version 8 or later.
+Dependencies
+The following tools and libraries are included to ensure the proper functioning of the API:
 
-Lombok: Simplificación del código.
-Spring Web: Implementación de controladores y servicios web.
-Spring Boot DevTools: Herramientas de desarrollo.
-Spring Data JPA: Persistencia de datos con JPA.
-Flyway Migration: Gestión de migraciones en la base de datos.
-MySQL Driver: Conexión con MySQL.
-Validation: Validaciones de datos.
-Spring Security: Seguridad para la API.
-Spring Doc: Documentación automática de la API con Swagger.
-Auth0 (Java JWT): Implementación de autenticación JWT.
-Objetivo del Proyecto
-Este desafío busca consolidar habilidades en el desarrollo de APIs REST, enfocándose en:
+Lombok: Simplifies code.
+Spring Web: For implementing controllers and web services.
+Spring Boot DevTools: Development tools.
+Spring Data JPA: For data persistence with JPA.
+Flyway Migration: Database migration management.
+MySQL Driver: For connecting to MySQL.
+Validation: For data validations.
+Spring Security: For API security.
+Spring Doc: For auto-generating API documentation with Swagger.
+Auth0 (Java JWT): For implementing JWT authentication.
+Project Objectives
+This challenge aims to consolidate skills in REST API development, focusing on:
 
-Implementación de rutas siguiendo las mejores prácticas del modelo REST.
-Validación de datos según las reglas del negocio.
-Persistencia de información en un sistema de base de datos relacional.
-Integración de servicios de autenticación y autorización.
-Creación de documentación clara y útil para desarrolladores.
+Implementing routes following REST model best practices.
+Validating data according to business rules.
+Persisting information in a relational database system.
+Integrating authentication and authorization services.
+Creating clear and useful documentation for developers.
