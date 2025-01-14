@@ -16,7 +16,7 @@ public class TopicValidation implements AnswerValidation{
     @Override
     public void validate(DtoAnswer dtoCreateAnswer) {
         if (topicRepository.findById(dtoCreateAnswer.idTopic()).isEmpty()) {
-            throw new IntegrityValidation("No fue encontrado un topico con este id");
+            throw new IntegrityValidation("No topic was found with this id");
         }
     }
 

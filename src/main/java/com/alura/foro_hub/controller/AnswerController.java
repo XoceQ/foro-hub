@@ -6,6 +6,9 @@ import com.alura.foro_hub.domain.answer.AnswerService;
 import com.alura.foro_hub.domain.answer.dtos.DtoAnswer;
 import com.alura.foro_hub.domain.answer.dtos.DtoListAnswers;
 import com.alura.foro_hub.domain.answer.dtos.DtoUpdateAnswer;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +19,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
+
 @RestController
-@RequestMapping("/respuestas")
+@RequestMapping("/answers")
 @SecurityRequirement(name = "bearer-key")
 @Tag(name = "Answers", description = "CRUD operations in the entity answers")
 public class AnswerController {
@@ -28,20 +33,20 @@ public class AnswerController {
     private AnswerRepository answerRepository;
 
     @GetMapping
-    @Operation(summary = "Obtiene todas las respuestas")
+    @Operation(summary = "Gets all the answers")
     public ResponseEntity<Page<DtoListAnswers>> listAnswers(@PageableDefault(size = 5) Pageable pageable){
         return ResponseEntity.ok(answerRepository.findByActiveTrue(pageable).map(DtoListAnswers::new));
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obtiene el registro de una respuesta por id")
+    @Operation(summary = "Gets the record of a response by id")
     public ResponseEntity<DtoListAnswers> findAnwerById(@PathVariable Long id) {
         Answer answer = answerRepository.getReferenceById(id);
         return ResponseEntity.ok(new DtoListAnswers(answer));
     }
 
     @PostMapping
-    @Operation(summary = "Registra una respuesta en la base de datos")
+    @Operation(summary = "Records a response in the database")
     public ResponseEntity<DtoListAnswers> createAnswer(@RequestBody @Valid DtoAnswer dtoCreateAnswer, UriComponentsBuilder uriComponentsBuilder) {
         DtoListAnswers dtoListAnswers = answerService.create(dtoCreateAnswer);
 
@@ -51,7 +56,7 @@ public class AnswerController {
 
     @PutMapping
     @Transactional
-    @Operation(summary = "Actualiza los datos de una respuesta")
+    @Operation(summary = "Update the data of an answer")
     public ResponseEntity<DtoListAnswers> updateAnswer(@RequestBody @Valid DtoUpdateAnswer dtoUpdateAnswer) {
         Answer answer = answerRepository.getReferenceById(dtoUpdateAnswer.id());
         answer.updateAnsw(dtoUpdateAnswer);
@@ -60,7 +65,7 @@ public class AnswerController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    @Operation(summary = "Marca una respuesta como inactiva")
+    @Operation(summary = "Mark a response as inactive")
     public ResponseEntity<Void> deleteAnswer(@PathVariable Long id) {
         Answer answer = answerRepository.getReferenceById(id);
         answer.deactivate();

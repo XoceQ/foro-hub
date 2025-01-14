@@ -14,7 +14,7 @@ public class CourseValidation implements TopicValidator{
     @Override
     public void validate(DtoRegisterTopic dtoRegisterTopic) {
         if (courseRepository.findById(dtoRegisterTopic.idCourse()).isEmpty()) {
-            throw new IntegrityValidation("No fue encontrado un curso con este id");
+            throw new IntegrityValidation("No course was found with this id");
         }
     }
 }

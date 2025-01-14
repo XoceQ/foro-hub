@@ -16,7 +16,7 @@ public class AutorAnswerValidation implements AnswerValidation{
     @Override
     public void validate(DtoAnswer dtoCreateAnswer) {
         if (profileRepository.findById(dtoCreateAnswer.idAutor()).isEmpty()) {
-            throw new IntegrityValidation("No fue encontrado un perfil con este id");
+            throw new IntegrityValidation("No profile was found with this id");
         }
     }
 

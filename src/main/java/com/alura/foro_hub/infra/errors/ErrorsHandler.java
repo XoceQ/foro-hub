@@ -13,13 +13,13 @@ import java.util.List;
 @RestControllerAdvice
 public class ErrorsHandler{
 
-        @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity errorHandle404() {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<Void> errorHandle404() {
         return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity errorHandle400(MethodArgumentNotValidException e) {
+    public ResponseEntity<List<ErrorValidationDTO>> errorHandle400(MethodArgumentNotValidException e) {
         List<ErrorValidationDTO> errors = e.getFieldErrors().stream()
                 .map(ErrorValidationDTO::new)
                 .toList();
@@ -36,7 +36,7 @@ public class ErrorsHandler{
         return ResponseEntity.badRequest().body(new ErrorMessageDTO(e.getMessage()));
     }
 
-    private record ErrorValidationDTO(String field, String error) {
+    public record ErrorValidationDTO(String field, String error) {
         public ErrorValidationDTO(FieldError error) {
             this(error.getField(), error.getDefaultMessage());
         }

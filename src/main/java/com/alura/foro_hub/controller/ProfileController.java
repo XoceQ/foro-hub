@@ -6,6 +6,9 @@ import com.alura.foro_hub.domain.profile.dtos.DtoListProfile;
 import com.alura.foro_hub.domain.profile.dtos.DtoRegisterProfile;
 import com.alura.foro_hub.domain.profile.dtos.DtoUpdateProfile;
 import com.alura.foro_hub.domain.topic.Topic;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,20 +25,20 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/user")
 @SecurityRequirement(name = "bearer-key")
-@Tag(name = "User", description = "Operaciones CRUD en la entidad usuario-perfil")
+@Tag(name = "User", description = "CRUD operations on the user-profile entity")
 public class ProfileController {
 
     @Autowired
     private ProfileRepository profileRepository;
 
     @GetMapping
-    @Operation(summary = "Obtiene todos los usuarios")
+    @Operation(summary = "Gets all users")
     public ResponseEntity<Page<DtoListProfile>> ListProfiles(@PageableDefault(size= 5) Pageable pageable) {
         return ResponseEntity.ok(profileRepository.findByActiveTrue(pageable).map(this::conversorToDTO));
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obtiene el registro de un usuario por ID")
+    @Operation(summary = "Gets the registration of a user by ID")
     public ResponseEntity<DtoListProfile> findProfileById(@PathVariable Long id) {
         Profile profile = profileRepository.getReferenceById(id);
 
@@ -43,7 +46,7 @@ public class ProfileController {
     }
 
     @PostMapping
-    @Operation(summary = "Registra un usuario en la base de datos")
+    @Operation(summary = "Register a user in the database")
     public ResponseEntity<DtoListProfile> createProfile(@RequestBody @Valid DtoRegisterProfile dtoRegisterProfile, UriComponentsBuilder uriComponentsBuilder) {
         Profile profile = new Profile(null, dtoRegisterProfile.name(), dtoRegisterProfile.email(), true, null, null, null);
         profileRepository.save(profile);
@@ -55,7 +58,7 @@ public class ProfileController {
 
     @PutMapping
     @Transactional
-    @Operation(summary = "Actualiza los datos de un usuario")
+    @Operation(summary = "Update a user's data")
     public ResponseEntity<DtoListProfile> updateProfile(@RequestBody @Valid DtoUpdateProfile dtoUpdateProfile) {
         Profile profile = profileRepository.getReferenceById(dtoUpdateProfile.id());
         profile.updateData(dtoUpdateProfile);
@@ -65,7 +68,7 @@ public class ProfileController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    @Operation(summary = "Marca al ususario como inactivo")
+    @Operation(summary = "Mark the user as inactive")
     public ResponseEntity<Void> deleteProfile(@PathVariable Long id) {
         Profile profile = profileRepository.getReferenceById(id);
         profile.deactivateProfile();

@@ -4,7 +4,7 @@ import java.util.List;
 
 public record DtoListProfile (
         Long id,
-        String nombre,
+        String name,
         String email,
-        List<String> topicos
+        List<String> topics
 ){}

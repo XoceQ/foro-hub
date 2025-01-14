@@ -14,7 +14,7 @@ public class AutorValidation implements TopicValidator{
     @Override
     public void validate(DtoRegisterTopic dtoRegisterTopic) {
         if (profileRepository.findById(dtoRegisterTopic.idAutor()).isEmpty()) {
-            throw new IntegrityValidation("No fue encontrado un perfil con este id");
+            throw new IntegrityValidation("No profile was found with this id");
         }
     }
 }
