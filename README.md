@@ -17,7 +17,7 @@
   <li>Extra routes:</li>
   <ul>
     <li><code>/user</code>: User management.</li>
-    <li><code>/responses</code>: Management of responses related to topics.</li>
+    <li><code>/answers</code>: Management of responses related to topics.</li>
   </ul>
 </ul>
 
