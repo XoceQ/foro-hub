@@ -1,7 +1,7 @@
 <h1>Foro Hub API</h1>
 The Foro Hub API is designed to manage topics, providing key functionalities for creating, viewing, updating, and deleting them. This project aims to implement a robust REST API that adheres to best practices, ensuring precise validations, secure authentication, and a relational database for data persistence.
 
-Key Features
+<h1>Key Features</h1>
 The API allows users to:
 
 Create a new topic.
@@ -9,7 +9,8 @@ View all created topics.
 View a specific topic.
 Update an existing topic.
 Delete a topic.
-Additional Functionalities
+
+<h1>Additional Functionalities</h1>
 Authentication and authorization using JWT to ensure security.
 Interactive documentation with Swagger.
 Extra routes:
