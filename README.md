@@ -14,11 +14,8 @@
 <ul>
   <li>Authentication and authorization using JWT to ensure security.</li>
   <li>Interactive documentation with Swagger.</li>
-  <li>Extra routes:</li>
-  <ul>
-    <li><code>/user</code>: User management.</li>
-    <li><code>/answers</code>: Management of responses related to topics.</li>
-  </ul>
+ ![image](https://github.com/user-attachments/assets/a1b16907-8125-4626-9f70-2bc252513da5)
+
 </ul>
 
 <h2>Technologies and Versions</h2>
