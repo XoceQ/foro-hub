@@ -33,10 +33,17 @@ public class SecurityConfigurations {
                 )
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(HttpMethod.POST, "/login").permitAll()  // Permitir acceso público al login
-                                .requestMatchers(HttpMethod.POST, "/topics/**").authenticated() // Requiere autenticación para crear topics
-                                .requestMatchers(HttpMethod.PUT, "/topics/**").authenticated()  // Requiere autenticación para actualizar topics
-                                .requestMatchers(HttpMethod.DELETE, "/topics/**").authenticated()  // Requiere autenticación para borrar topics
-                                .anyRequest().permitAll()  // Permite acceso público a otras rutas
+                                .requestMatchers(HttpMethod.POST, "/user").authenticated() // Requiere autenticación para registrar un usuario
+                                .requestMatchers(HttpMethod.PUT, "/user").authenticated()  // Requiere autenticación para actualizar usuario
+                                .requestMatchers(HttpMethod.GET, "/user").authenticated()  // Requiere autenticación para ver detalles de un usuario
+                                .requestMatchers(HttpMethod.GET, "/user/{id}").authenticated()  // Requiere autenticación para ver detalles de un usuario
+                                .requestMatchers(HttpMethod.DELETE, "/user/{id}").authenticated()  // Requiere autenticación para desactivar usuario
+                                .requestMatchers(HttpMethod.GET, "/topics").authenticated()  // Requiere autenticación para ver los temas
+                                .requestMatchers(HttpMethod.GET, "/topics/{id}").authenticated()  // Requiere autenticación para ver los temas
+                                .requestMatchers(HttpMethod.POST, "/topics").authenticated()  // Requiere autenticación para crear temas
+                                .requestMatchers(HttpMethod.PUT, "/topics").authenticated()  // Requiere autenticación para actualizar temas
+                                .requestMatchers(HttpMethod.DELETE, "/topics").authenticated()  // Requiere autenticación para eliminar temas.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()  // Permitir acceso público a Swagger
+                                .anyRequest().permitAll() // Permite acceso público a otras rutas
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class) // Agregar el filtro personalizado para JWT
                 .build();
