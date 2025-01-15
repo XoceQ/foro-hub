@@ -5,12 +5,7 @@ CREATE TABLE users (
                        PRIMARY KEY (id)
 );
 
-CREATE TABLE courses (
-                         id       BIGINT NOT NULL AUTO_INCREMENT,
-                         name     VARCHAR(100) NOT NULL,
-                         category VARCHAR(100) NOT NULL,
-                         PRIMARY KEY (id)
-);
+
 
 CREATE TABLE profiles (
                           id       BIGINT NOT NULL AUTO_INCREMENT,
@@ -36,15 +31,3 @@ CREATE TABLE topics (
                         CONSTRAINT fk_topic_course_id FOREIGN KEY (id_course) REFERENCES courses(id) ON DELETE CASCADE
 );
 
-CREATE TABLE answers (
-                         id            BIGINT NOT NULL AUTO_INCREMENT,
-                         message       VARCHAR(100) NOT NULL,
-                         creation_date DATETIME NOT NULL,
-                         solution      TINYINT DEFAULT 0,
-                         id_autor      BIGINT NOT NULL,
-                         id_topic      BIGINT NOT NULL,
-                         active        TINYINT DEFAULT 1,
-                         PRIMARY KEY (id),
-                         CONSTRAINT fk_answers_autor_id FOREIGN KEY (id_autor) REFERENCES profiles(id) ON DELETE CASCADE,
-                         CONSTRAINT fk_answers_topic_id FOREIGN KEY (id_topic) REFERENCES topics(id) ON DELETE CASCADE
-);
