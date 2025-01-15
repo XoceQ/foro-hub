@@ -9,7 +9,6 @@
   <li>Update an existing topic.</li>
   <li>Delete a topic.</li>
 </ul>
-https://drive.google.com/file/d/1rD6Svhl-hlBvTjsWiHlcGtLM492m63FI/view
 
 <h2>Additional Functionalities</h2>
 <ul>
