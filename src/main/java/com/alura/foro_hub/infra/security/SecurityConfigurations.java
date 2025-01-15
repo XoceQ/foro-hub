@@ -17,19 +17,28 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
+    private final JwtAuthFilter jwtAuthFilter;
+
     @Autowired
-    private SecurityFilter securityFilter;
+    public SecurityConfigurations(JwtAuthFilter jwtAuthFilter) {
+        this.jwtAuthFilter = jwtAuthFilter;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(c -> c.disable())
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                        .anyRequest().authenticated()
+                .csrf(csrf -> csrf.disable()) // Deshabilitar CSRF con la nueva API
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Configuración sin estado
                 )
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .authorizeHttpRequests(auth ->
+                        auth.requestMatchers(HttpMethod.POST, "/login").permitAll()  // Permitir acceso público al login
+                                .requestMatchers(HttpMethod.POST, "/topics/**").authenticated() // Requiere autenticación para crear topics
+                                .requestMatchers(HttpMethod.PUT, "/topics/**").authenticated()  // Requiere autenticación para actualizar topics
+                                .requestMatchers(HttpMethod.DELETE, "/topics/**").authenticated()  // Requiere autenticación para borrar topics
+                                .anyRequest().permitAll()  // Permite acceso público a otras rutas
+                )
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class) // Agregar el filtro personalizado para JWT
                 .build();
     }
 

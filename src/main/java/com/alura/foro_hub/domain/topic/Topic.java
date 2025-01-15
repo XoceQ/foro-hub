@@ -1,7 +1,6 @@
 package com.alura.foro_hub.domain.topic;
 
-import com.alura.foro_hub.domain.answer.Answer;
-import com.alura.foro_hub.domain.course.Course;
+
 import com.alura.foro_hub.domain.profile.Profile;
 import com.alura.foro_hub.domain.topic.dtos.DtoUpdateTopic;
 import jakarta.persistence.*;
@@ -10,12 +9,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Table(name = "topics")
 @Entity(name = "Topic")
 @Getter
-@NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Topic {
     @Id
@@ -26,29 +23,31 @@ public class Topic {
     private LocalDateTime creation_date;
     private Boolean status;
     private Boolean active;
+    @Column(name = "update_date", nullable = false)
+    private LocalDateTime updateDate; // Campo para registrar la última actualización
 
-    @OneToMany(mappedBy = "topic")
-    private List<Answer> answerList;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_autor")
     private Profile profile;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_course")
-    private Course course;
 
+    public Topic() {
 
-    public Topic(Long id, String title, String message, LocalDateTime creation_date, Boolean status, Boolean active, List<Answer> answerList, Profile profile, Course course) {
-        this.id = id;
+    }
+
+    public Topic(String title, String message, Profile profile) {
         this.title = title;
         this.message = message;
-        this.creation_date = creation_date;
-        this.status = status;
-        this.active = active;
-        this.answerList = answerList;
+        this.creation_date = LocalDateTime.now();  // Usamos la fecha actual para creation_date
+        this.status = true;  // Estado por defecto
+        this.active = true;  // Por defecto, el topic estará activo
         this.profile = profile;
-        this.course = course;
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.updateDate = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -99,13 +98,7 @@ public class Topic {
         this.active = active;
     }
 
-    public List<Answer> getAnswerList() {
-        return answerList;
-    }
 
-    public void setAnswerList(List<Answer> answerList) {
-        this.answerList = answerList;
-    }
 
     public Profile getProfile() {
         return profile;
@@ -115,12 +108,13 @@ public class Topic {
         this.profile = profile;
     }
 
-    public Course getCourse() {
-        return course;
+
+    public LocalDateTime getUpdateDate() {
+        return updateDate;
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
+    public void setUpdateDate(LocalDateTime updateDate) {
+        this.updateDate = updateDate;
     }
 
     public void updateData(DtoUpdateTopic dtoUpdateTopic) {
@@ -133,6 +127,8 @@ public class Topic {
         if (dtoUpdateTopic.message() != null) {
             this.message = dtoUpdateTopic.message();
         }
+        this.updateDate = LocalDateTime.now(); // Actualiza la fecha
+
     }
 
     public void deactivateTopic() {

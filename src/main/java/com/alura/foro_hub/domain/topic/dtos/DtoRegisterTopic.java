@@ -8,7 +8,6 @@ public record DtoRegisterTopic(
                                @NotNull
                                String message,
                                @NotNull
-                               Long idAutor,
-                               @NotNull
-                               Long idCourse
+                               Long idAutor
+
 ) { }

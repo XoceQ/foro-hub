@@ -3,7 +3,7 @@ package com.alura.foro_hub.controller;
 
 import com.alura.foro_hub.domain.user.User;
 import com.alura.foro_hub.domain.user.dtos.DtoAunthetication;
-import com.alura.foro_hub.domain.user.dtos.DtoJwtToken;
+import com.alura.foro_hub.infra.security.DtoJwtToken;
 import com.alura.foro_hub.infra.security.TokenService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -30,7 +30,7 @@ public class AuthController {
     private TokenService tokenService;
 
     @PostMapping
-    public ResponseEntity<DtoJwtToken> authenticateUser(@RequestBody @Valid DtoAunthetication dtoAunthetication) {
+    public ResponseEntity authenticateUser(@RequestBody @Valid DtoAunthetication dtoAunthetication) {
         Authentication authToken = new UsernamePasswordAuthenticationToken(dtoAunthetication.username(), dtoAunthetication.password());
         var userAuth = authenticationManager.authenticate(authToken);
         var jwtToken = tokenService.generateToken((User) userAuth.getPrincipal());

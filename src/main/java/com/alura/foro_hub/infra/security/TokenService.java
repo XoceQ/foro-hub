@@ -19,23 +19,22 @@ public class TokenService {
     @Value("${api.security.secret}")
     private String apiSecret;
 
-    // Método para generar el token JWT
+    // Generar JWT
     public String generateToken(User user) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(apiSecret);
             return JWT.create()
-                    .withIssuer("foro_hub")
-                    .withSubject(user.getUsername())
-                    .withClaim("id", user.getId())
+                    .withIssuer("foro-hub")
+                    .withSubject(user.getUsername()) // Usa el username del objeto User
+                    .withClaim("id", user.getId())   // Puedes añadir más claims si es necesario
                     .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
-            throw new RuntimeException();
+            throw new RuntimeException("Error generating JWT token", exception);
         }
     }
 
-
-    // Método para obtener el 'subject' (usuario) desde el token JWT
+    // Obtener el subject del token
     public String getSubject(String token) {
         if (token == null) {
             throw new RuntimeException();
@@ -43,22 +42,21 @@ public class TokenService {
         DecodedJWT verifier = null;
         try {
             Algorithm algorithm = Algorithm.HMAC256(apiSecret);
-            verifier = JWT.require(algorithm) // Validando la firma
-                    .withIssuer("foro_hub") // Comprobando el emisor
+            verifier = JWT.require(algorithm)
+                    .withIssuer("foro-hub")
                     .build()
                     .verify(token);
+            verifier.getSubject();
         } catch (JWTVerificationException exception) {
-            // Aquí se maneja el caso de un token inválido
             System.out.println(exception.toString());
         }
-
         if (verifier.getSubject() == null) {
             throw new RuntimeException("Verifier invalido");
         }
         return verifier.getSubject();
     }
 
-    // Método para generar la fecha de expiración del token
+    // Fecha de expiración del token (1 hora)
     private Instant generateExpirationDate() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-05:00"));
     }

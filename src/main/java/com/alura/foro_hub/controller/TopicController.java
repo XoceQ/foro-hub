@@ -1,5 +1,7 @@
 package com.alura.foro_hub.controller;
 
+import com.alura.foro_hub.domain.profile.Profile;
+import com.alura.foro_hub.domain.profile.ProfileRepository;
 import com.alura.foro_hub.domain.topic.CreateTopicService;
 import com.alura.foro_hub.domain.topic.Topic;
 import com.alura.foro_hub.domain.topic.TopicRepository;
@@ -33,6 +35,11 @@ public class TopicController {
     @Autowired
     private CreateTopicService createTopicService;
 
+    @Autowired
+    private ProfileRepository profileRepository;
+
+
+
     @GetMapping
     @Operation(summary = "Gets all topics")
     public ResponseEntity<Page<DtoTopicList>> listTopics(@PageableDefault(size = 5) Pageable pagination)  {
@@ -50,11 +57,25 @@ public class TopicController {
     @PostMapping
     @Operation(summary = "Register a new topic in the database")
     public ResponseEntity<DtoTopicList> create(@RequestBody @Valid DtoRegisterTopic dtoRegisterTopic, UriComponentsBuilder uriComponentsBuilder) {
-        DtoTopicList result = createTopicService.create(dtoRegisterTopic);
+        // Obtener el Profile y Course (deben existir antes de crear el Topic)
+        Profile profile = profileRepository.getReferenceById(dtoRegisterTopic.idAutor());
 
-        URI url = uriComponentsBuilder.path("/topicos/{id}").buildAndExpand(result.id()).toUri();
-        return  ResponseEntity.created(url).body(result);
+        // Crear el topic
+        Topic topic = new Topic(
+                dtoRegisterTopic.title(),
+                dtoRegisterTopic.message(),
+                profile
+
+        );
+
+        topicRepository.save(topic);
+
+        DtoTopicList result = new DtoTopicList(topic);
+
+        URI url = uriComponentsBuilder.path("/topics/{id}").buildAndExpand(result.id()).toUri();
+        return ResponseEntity.created(url).body(result);
     }
+
 
     @PutMapping
     @Transactional
@@ -64,6 +85,7 @@ public class TopicController {
         topic.updateData(dtoUpdateTopic);
         return ResponseEntity.ok(new DtoTopicList(topic));
     }
+
 
     @DeleteMapping("/{id}")
     @Transactional

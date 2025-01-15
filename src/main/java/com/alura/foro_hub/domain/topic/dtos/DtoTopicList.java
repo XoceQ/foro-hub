@@ -11,9 +11,8 @@ public record DtoTopicList(
         Boolean active,
         Long authorId,
         String author,
-        Long courseId,
-        String course,
-        LocalDateTime creationDate
+        LocalDateTime creationDate,
+        LocalDateTime lastUpdate
 ) {
     public DtoTopicList(Topic topic) {
         this(
@@ -23,9 +22,8 @@ public record DtoTopicList(
                 topic.getStatus(),
                 topic.getProfile().getId(),
                 topic.getProfile().getName(),
-                topic.getCourse().getId(),
-                topic.getCourse().getName(),
-                topic.getCreation_date()
+                topic.getCreation_date(),
+                topic.getUpdateDate()
         );
     }
 }

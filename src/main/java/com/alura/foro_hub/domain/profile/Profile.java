@@ -1,18 +1,17 @@
 package com.alura.foro_hub.domain.profile;
 
-import com.alura.foro_hub.domain.answer.Answer;
 import com.alura.foro_hub.domain.profile.dtos.DtoUpdateProfile;
 import com.alura.foro_hub.domain.topic.Topic;
 import com.alura.foro_hub.domain.user.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "profiles")
 @Entity(name = "Profile")
-@NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Profile {
     @Id
@@ -29,17 +28,22 @@ public class Profile {
     @OneToMany(mappedBy = "profile",  cascade = CascadeType.ALL)
     private List<Topic> topicList;
 
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
-    private List<Answer> answerList;
 
-    public Profile(Long id, String name, String email, Boolean active, User user, List<Topic> topicList, List<Answer> answerList) {
+
+    public Profile() {
+        // Constructor vacío
+    }
+
+    public Profile(Object o, @NotNull String name, @NotNull String email, boolean b, User user, Object object, Object o1) {
+    }
+
+    public Profile(Long id, String name, String email, Boolean active, User user, List<Topic> topicList) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.active = active;
         this.user = user;
-        this.topicList = topicList;
-        this.answerList = answerList;
+        this.topicList = topicList != null ? topicList : new ArrayList<>(); // Verifica que no sea null
     }
 
     public Long getId() {
@@ -87,16 +91,9 @@ public class Profile {
     }
 
     public void setTopicList(List<Topic> topicList) {
-        this.topicList = topicList;
+        this.topicList = topicList != null ? topicList : new ArrayList<>(); // Verifica que no sea null
     }
 
-    public List<Answer> getAnswerList() {
-        return answerList;
-    }
-
-    public void setAnswerList(List<Answer> answerList) {
-        this.answerList = answerList;
-    }
 
     public void updateData(DtoUpdateProfile dtoUpdateProfile) {
         if (dtoUpdateProfile.name() != null) {

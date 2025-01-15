@@ -6,5 +6,7 @@ public record DtoListProfile (
         Long id,
         String name,
         String email,
+        Long id_user,   // Se añade el campo id_user
+        Boolean active,
         List<String> topics
 ){}

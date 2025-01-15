@@ -6,6 +6,8 @@ public record DtoRegisterProfile (
         @NotNull
         String name,
         @NotNull
-        String email
+        String email,
+        @NotNull
+        Long id_user
 ) {
 }
