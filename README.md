@@ -9,12 +9,13 @@
   <li>Update an existing topic.</li>
   <li>Delete a topic.</li>
 </ul>
+![endpoints](https://github.com/user-attachments/assets/82718966-dce8-43de-9049-fd8ec1155a22)
+
 
 <h2>Additional Functionalities</h2>
 <ul>
   <li>Authentication and authorization using JWT to ensure security.</li>
   <li>Interactive documentation with Swagger.</li>
- ![image](https://github.com/user-attachments/assets/a1b16907-8125-4626-9f70-2bc252513da5)
 
 </ul>
 
