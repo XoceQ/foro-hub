@@ -9,7 +9,7 @@
   <li>Update an existing topic.</li>
   <li>Delete a topic.</li>
 </ul>
-![endpoints](https://github.com/user-attachments/assets/82718966-dce8-43de-9049-fd8ec1155a22)
+![alt text](https://github.com/user-attachments/assets/82718966-dce8-43de-9049-fd8ec1155a22)
 
 
 <h2>Additional Functionalities</h2>
