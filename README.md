@@ -4,7 +4,7 @@
 <h2>Key Features ✨</h2>
 ## Key Features 🚀
 
-### User Profile CRUD Operations 👤
+### User Profile CRUD Operations 
 
 - **GET /user**: Retrieves a list of all users from the database.
 - **PUT /user**: Updates the data of an existing user.
